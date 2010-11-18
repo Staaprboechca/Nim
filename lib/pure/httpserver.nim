@@ -136,9 +136,12 @@ proc executeCgi(client: TSocket, path, query: string, meth: TRequestMethod) =
   if meth == reqPost:
     # get from client and post to CGI program:
     var buf = alloc(contentLength)
-    if recv(client, buf, contentLength) != contentLength: OSError()
+    if recv(client, buf, contentLength) != contentLength: 
+      dealloc(buf)
+      OSError()
     var inp = process.inputStream
     inp.writeData(inp, buf, contentLength)
+    dealloc(buf)
 
   var outp = process.outputStream
   while running(process) or not outp.atEnd(outp):
@@ -153,10 +156,21 @@ proc acceptRequest(client: TSocket) =
   var query = ""
   var buf = ""
   discard recvLine(client, buf)
+  var path = ""
   var data = buf.split()
   var meth = reqGet
+
+  var q = find(data[1], '?')
+
+  # extract path
+  if q >= 0:
+    # strip "?..." from path, this may be found in both POST and GET
+    path = "." & data[1].copy(0, q-1)
+  else:
+    path = "." & data[1]
+  # path starts with "/", by adding "." in front of it we serve files from cwd
+  
   if cmpIgnoreCase(data[0], "GET") == 0:
-    var q = find(data[1], '?')
     if q >= 0:
       cgi = true
       query = data[1].copy(q+1)
@@ -166,7 +180,6 @@ proc acceptRequest(client: TSocket) =
   else:
     unimplemented(client)
 
-  var path = data[1]
   if path[path.len-1] == '/' or existsDir(path):
     path = path / "index.html"
 
@@ -221,7 +234,7 @@ proc next*(s: var TServer) =
   var buf = ""
   discard recvLine(s.client, buf)
   var data = buf.split()
-  if cmpIgnoreCase(data[0], "GET") == 0:
+  if cmpIgnoreCase(data[0], "GET") == 0 or cmpIgnoreCase(data[0], "POST") == 0:
     var q = find(data[1], '?')
     if q >= 0:
       s.query = data[1].copy(q+1)
