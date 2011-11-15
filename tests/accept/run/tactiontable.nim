@@ -16,7 +16,7 @@ proc action3(arg: string) =
 proc action4(arg: string) = 
   echo "action 4 ", arg
 
-const
+var
   actionTable = {
     "A": action1, 
     "B": action2, 
