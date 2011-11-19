@@ -40,7 +40,7 @@ proc threadFunc(interval: tuple[a, b: int]) {.thread.} =
     var r = buildTree(i)
     echoLeTree(r) # for local data
   root = buildTree(2) # BAD!
-  echoLeTree(root) # and the same for foreign data :-)
+  #echoLeTree(root) # and the same for foreign data :-)
 
 proc main =
   root = buildTree(5)
