@@ -33,7 +33,7 @@
   tree from the symbol declaration instead of just the initializer portion.
 
 - Methods are now ordinary "single" methods, only the first parameter is
-  used to select the variant at runtime. For backwards compatbility
+  used to select the variant at runtime. For backwards compatibility
   use the new `--multimethods:on` switch.
 
 - Generic methods are now deprecated; they never worked well.
@@ -58,7 +58,7 @@
 - Macro arguments of type `typedesc` are now passed to the macro as
   `NimNode` like every other type except `static`. Use `typed` for a
   behavior that is identical in new and old
-  Nim. Seet the RFC [Pass typedesc as NimNode to macros](https://github.com/nim-lang/RFCs/issues/148>)
+  Nim. See the RFC [Pass typedesc as NimNode to macros](https://github.com/nim-lang/RFCs/issues/148)
   for more details.
 
 
@@ -91,8 +91,8 @@
   This change only affects custom stream implementations.
 
 - nre's `RegexMatch.{captureBounds,captures}[]`  no longer return `Option` or
-  `nil`/`""`, respectivly. Use the newly added `n in p.captures` method to
-  check if a group is captured, otherwise you'll recieve an exception.
+  `nil`/`""`, respectively. Use the newly added `n in p.captures` method to
+  check if a group is captured, otherwise you'll receive an exception.
 
 - nre's `RegexMatch.{captureBounds,captures}.toTable` no longer accept a
   default parameter. Instead uncaptured entries are left empty. Use
@@ -106,7 +106,7 @@
 
 - nre's `replace()` no longer throws `ValueError` when the replacement string
   has missing captures. It instead throws `KeyError` for named captures, and
-  `IndexError` for un-named captures. This is consistant with
+  `IndexError` for unnamed captures. This is consistent with
   `RegexMatch.{captureBounds,captures}[]`.
 
 - `splitFile` now correctly handles edge cases, see #10047.
@@ -199,7 +199,7 @@ proc enumToString*(enums: openArray[enum]): string =
 - Added `system.default`.
 
 - Added `sequtils.items` for closure iterators, allows closure iterators
-  to be used by the the mapIt, filterIt, allIt, anyIt, etc.
+  to be used by the `mapIt`, `filterIt`, `allIt`, `anyIt`, etc.
 
 
 ### Library changes
@@ -273,7 +273,7 @@ proc enumToString*(enums: openArray[enum]): string =
   description. `jsondoc0` shows comments as its own objects as shown in the
   documentation.
 - `nimpretty`: --backup now defaults to `off` instead of `on` and the flag was
-  un-documented; use `git` instead of relying on backup files.
+  undocumented; use `git` instead of relying on backup files.
 - `koch` now defaults to build the latest *stable* Nimble version unless you
   explicitly ask for the latest master version via `--latest`.
 
